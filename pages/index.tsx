@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import {EExternalLinks} from "../shared/utils/enums";
 
 export default function Home() {
-  const redirectUri = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/authenticate' : 'https://spotifyplay.felipelobo.co/me';
+  const redirectUri = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/authenticate' : `${process.env.URL}/authenticate`;
   const authenticationUrl = `${EExternalLinks.SPOTIFY_AUTH_URL}?client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token`
   return (
     <div className={styles.container}>
