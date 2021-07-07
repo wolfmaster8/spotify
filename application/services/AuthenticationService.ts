@@ -1,7 +1,7 @@
-import {setRequestInterceptor, spotifyApi} from "../spotifyApi";
+import {setRequestInterceptor} from "./spotifyApi";
 
-class AuthenticationService {
-    async setToken() {
+export default class AuthenticationService {
+    public static async setToken() {
         const hash = window.location.hash.match(new RegExp('access_token=([^&]*)'));
         if (hash?.length) {
             const accessToken = hash[1];
@@ -11,5 +11,3 @@ class AuthenticationService {
         }
     }
 }
-
-export default new AuthenticationService();

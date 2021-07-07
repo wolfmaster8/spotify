@@ -1,13 +1,12 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import {useEffect} from "react";
-import {setRequestInterceptor} from "../services/spotifyApi";
+import type {AppProps} from 'next/app'
+import {ThemeProvider} from "styled-components";
+import {theme} from "../styles/palette";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    console.log('main')
-    setRequestInterceptor()
-  }, [])
-  return <Component {...pageProps} />
+
+  return (<ThemeProvider theme={theme}>
+    <Component {...pageProps} />
+  </ThemeProvider>)
 }
 export default MyApp

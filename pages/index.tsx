@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {EExternalLinks} from "../shared/utils/enums";
+import {Button} from "../shared/components/Button/Button";
 
 export default function Home() {
   const redirectUri = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/authenticate' : `${process.env.URL}/authenticate`;
@@ -30,6 +31,7 @@ export default function Home() {
             <p>Login via Spotify</p>
           </a>
 
+        <Button type="primary" text="Button" />
         </div>
       </main>
 

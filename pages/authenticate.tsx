@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import {useEffect} from "react";
-import AuthenticationService from "../services/Authentication/AuthenticationService";
+import AuthenticationService from "../application/services/AuthenticationService";
 
 export default function Authenticate(){
     const router  = useRouter()

@@ -1,24 +1,25 @@
-import {fetcher} from "../services/spotifyApi";
-import useSWR from "swr";
+import {useEffect, useState} from "react";
+import {Playlist} from "../application/models/playlists/Playlist";
+import PlaylistsManager from "../application/managers/PlaylistsManager";
+import PrivateLayout from "../shared/components/PrivateLayout";
 
 export default function Lists(){
+    const [playlists, setPlaylists] = useState<Playlist[]>([])
 
-    const {data} = useSWR('/artists/1vCWHaC5f2uS3yhpwWbIA6/albums?album_type=SINGLE&offset=20&limit=10', fetcher)
-    console.log({data});
-    if(!data?.items.length){
-        return <p>Loading Lists</p>
+    useEffect(() => {
+        fetchUserPlaylists()
+    }, [])
+
+    const fetchUserPlaylists = async () => {
+       const userPlaylists = await PlaylistsManager.getUserPlaylists()
+        if(userPlaylists.length){
+            setPlaylists(userPlaylists)
+        }
     }
     return (
-        <div><h1>Lists...</h1>
-            {data.items.map((item: any) => <p key={item.uri}>{item.name}</p>)}
-        </div>
+        <PrivateLayout>
+            <h1>Playlists...</h1>
+            {playlists.map((item: any) => <p key={item.uri}>{item.name}</p>)}
+        </PrivateLayout>
     )
 }
-
-/*
-export async function getStaticProps() {
-    // `getStaticProps` is invoked on the server-side,
-    // so this `fetcher` function will be executed on the server-side.
-    const posts = await fetcher('/artists/1vCWHaC5f2uS3yhpwWbIA6/albums?album_type=SINGLE&offset=20&limit=10')
-    return { props: { posts } }
-}*/
