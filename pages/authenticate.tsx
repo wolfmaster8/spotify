@@ -7,7 +7,7 @@ export default function Authenticate(){
 
     useEffect(() => {
         AuthenticationService.setToken().then(() => {
-            router.push('/lists')
+            router.push('/playlists')
         }).catch(() => router.push('/'))
     }, [])
     return (

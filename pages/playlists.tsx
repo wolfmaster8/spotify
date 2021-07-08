@@ -3,7 +3,7 @@ import {Playlist} from "../application/models/playlists/Playlist";
 import PlaylistsManager from "../application/managers/PlaylistsManager";
 import PrivateLayout from "../shared/components/PrivateLayout";
 
-export default function Lists(){
+export default function Playlists(){
     const [playlists, setPlaylists] = useState<Playlist[]>([])
 
     useEffect(() => {
@@ -17,9 +17,9 @@ export default function Lists(){
         }
     }
     return (
-        <PrivateLayout>
+        <div>
             <h1>Playlists...</h1>
             {playlists.map((item: any) => <p key={item.uri}>{item.name}</p>)}
-        </PrivateLayout>
+        </div>
     )
 }
