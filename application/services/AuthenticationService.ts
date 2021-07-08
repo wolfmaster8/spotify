@@ -1,4 +1,4 @@
-import {setRequestInterceptor} from "./spotifyApi";
+import {setRequestInterceptor} from "./axiosInstances/spotifyApi";
 
 export default class AuthenticationService {
     public static async setToken() {

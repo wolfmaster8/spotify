@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {setRequestInterceptor} from "../../../application/services/spotifyApi";
+import {setRequestInterceptor} from "../../../application/services/axiosInstances/spotifyApi";
 import {useRouter} from "next/router";
 
 type PrivateLayoutProps = {

@@ -1,4 +1,4 @@
-import {spotifyApi} from "./spotifyApi";
+import {spotifyApi} from "./axiosInstances/spotifyApi";
 import {FetchUserPlaylistsResponse} from "./interfaces/IPlaylistsService";
 
 export default class PlaylistsService {
