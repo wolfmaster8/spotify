@@ -17,9 +17,9 @@ export default function Playlists(){
         }
     }
     return (
-        <div>
+        <PrivateLayout>
             <h1>Playlists...</h1>
             {playlists.map((item: any) => <p key={item.uri}>{item.name}</p>)}
-        </div>
+        </PrivateLayout>
     )
 }

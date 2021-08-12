@@ -8,13 +8,8 @@ export const spotifyApi = axios.create({
 export const setRequestInterceptor = () => {
     spotifyApi.interceptors.request.use((config) => {
         const token = sessionStorage.getItem('accessToken');
-        console.log('stting',token);
         config.headers['Authorization'] = `Bearer ${token}`;
         config.headers['Content-Type'] = 'application/json';
         return config;
     });
 };
-
-
-
-export const fetcher = async (url: string) => await spotifyApi.get(url).then(response => response.data)

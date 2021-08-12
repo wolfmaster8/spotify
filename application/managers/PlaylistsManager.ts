@@ -8,7 +8,6 @@ export default  class PlaylistsManager {
         const playlists = await PlaylistsService.fetchUserPlaylists();
         const formattedPlaylists = this.formatUserPlaylists({playlists});
        return Promise.resolve(formattedPlaylists)
-
     }
 
     private static formatUserPlaylists({playlists}: {playlists: FetchUserPlaylistsResponse}): Playlist[]{

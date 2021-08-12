@@ -6,6 +6,10 @@ export default function Authenticate(){
     const router  = useRouter()
 
     useEffect(() => {
+        console.log(window.location.hash)
+    }, [])
+
+    useEffect(() => {
         AuthenticationService.setToken().then(() => {
             router.push('/playlists')
         }).catch(() => router.push('/'))
