@@ -13,13 +13,19 @@ interface ProfileProviderProps {
     children: ReactNode;
 }
 
+
 export function ProfileProvider({children}: ProfileProviderProps){
     const [profile, setProfile] = useState({} as Profile);
 
-    useEffect(async () => {
+    useEffect( () => {
+        fetchProfile()
+    }, [])
+
+    const fetchProfile = async () => {
         const data = await ProfileManager.getProfile();
         setProfile(data)
-    }, [])
+    }
+
     return(
         <ProfileContext.Provider value={{profile}}>
             {children}

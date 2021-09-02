@@ -4,8 +4,9 @@ import {ProfileContext} from "../../../application/contexts/ProfileContext";
 function Header() {
 
     const {profile} = useContext(ProfileContext)
+
     return (
-        <div>{profile.display_name}</div>
+        <div data-cy="displayName">{profile.display_name}</div>
     );
 }
 

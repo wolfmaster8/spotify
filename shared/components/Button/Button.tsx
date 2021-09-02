@@ -7,11 +7,12 @@ interface IButton {
     text: string;
     onClick?: () => void;
     link?: string;
-    icon? : ReactNode
+    icon? : ReactNode;
+    dataCy?: string
 }
 
 
-export function Button({type, text, onClick, link, icon}: IButton) {
+export function Button({type, text, onClick, link, icon, dataCy}: IButton) {
     /* if(type === 'primary'){
          return <ButtonPrimary>{text}</ButtonPrimary>
      }
@@ -20,7 +21,7 @@ export function Button({type, text, onClick, link, icon}: IButton) {
          return <ButtonPrimary>{text}</ButtonPrimary>
      }*/
     return (
-        <ButtonContainer onClick={onClick} className={type}>
+        <ButtonContainer onClick={onClick} className={type} data-cy={dataCy}>
             {icon} Texto
         </ButtonContainer>
     )
