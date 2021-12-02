@@ -14,7 +14,6 @@ export default function SelectButton({
   selectedValue,
 }: SelectButtonProps & React.HTMLProps<HTMLButtonElement>) {
   const isSelected = selectedValue === id;
-  console.log("id", id, selectedValue);
 
   const buttonColor = isSelected
     ? "bg-blue-600 text-blue-100 hover:bg-blue-500 hover:border-blue-400"

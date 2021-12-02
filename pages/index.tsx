@@ -1,12 +1,15 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import {EExternalLinks} from "../shared/utils/enums";
-import {Button} from "../shared/components/Button/Button";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import { EExternalLinks } from "../shared/utils/enums";
+import { Button } from "../shared/components/Button/Button";
 
 export default function Home() {
-  const redirectUri = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000/authenticate' : `${process.env.URL}/authenticate`;
-  const authenticationUrl = `${EExternalLinks.SPOTIFY_AUTH_URL}?client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token`
+  const redirectUri =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/authenticate"
+      : `${process.env.URL}/authenticate`;
+  const authenticationUrl = `${EExternalLinks.SPOTIFY_AUTH_URL}?client_id=${process.env.SPOTIFY_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token`;
   return (
     <div className={styles.container}>
       <Head>
@@ -15,38 +18,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href={authenticationUrl} className={styles.card}>
-            <h2>Login</h2>
-            <p>Login via Spotify</p>
-          </a>
-
-        <Button type="primary" text="Button" />
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
+      <main className="h-screen flex items-center justify-center">
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          href={authenticationUrl}
+          className="bg-blue-600 transition-all hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed border-2 px-8 border-blue-600 text-blue-100  uppercase text-xs tracking-wider font-semibold py-2 rounded-md"
         >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
+          <p>Login</p>
         </a>
-      </footer>
+      </main>
     </div>
-  )
+  );
 }

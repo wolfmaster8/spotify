@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { UilMicrophone, UilBooks } from "@iconscout/react-unicons";
-import { SearchContext, SearchContextProvider } from "./SearchContext";
+import { UilBooks, UilMicrophone } from "@iconscout/react-unicons";
+import { Order, SearchContext, SearchContextProvider } from "./SearchContext";
 import General from "../../../shared/components/General";
 
 function SearchPage() {
@@ -11,7 +11,9 @@ function SearchPage() {
     query,
     updateFilters,
     filters,
-    items,
+    orderedItems,
+    setOrder,
+    order,
   } = useContext(SearchContext);
 
   const isButtonDisabled: boolean = !filters.type || !searchQuery.length;
@@ -46,17 +48,31 @@ function SearchPage() {
           role="button"
           type="submit"
           onClick={doSearch}
-          className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed border-2 px-8 border-blue-600 text-blue-100  uppercase text-xs tracking-wider font-semibold py-2 rounded-md"
+          className="bg-blue-600 transition-all hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed border-2 px-8 border-blue-600 text-blue-100  uppercase text-xs tracking-wider font-semibold py-2 rounded-md"
         >
           Buscar
         </button>
+
+        {orderedItems.length ? (
+          <select
+            value={String(order)}
+            onChange={(e) => {
+              setOrder(() => e.target.value as Order);
+            }}
+            className="ml-4 border-2 focus:ring-2 focus:ring-blue-600 rounded-md py-2 px-2 min-w-16"
+            name="order"
+          >
+            <option value="asc">Alfabeticamente (A-Z)</option>
+            <option value="desc">Alfabeticamente (Z-A)</option>
+          </select>
+        ) : null}
       </div>
 
       <div className="grid grid-cols-4 gap-8 p-8">
-        {items
-          ? items.map((artist) => (
+        {orderedItems.length
+          ? orderedItems.map((artist) => (
               <div
-                key={artist.name}
+                key={artist.uri}
                 className="bg-gray-50 flex flex-col items-center p-4 rounded-md"
               >
                 <img
