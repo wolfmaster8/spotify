@@ -7,10 +7,12 @@ import React, {
 } from "react";
 import { useRouter } from "next/router";
 import { spotifyApi } from "../../services/axiosInstances/spotifyApi";
+import URLHelper from "../../services/URLHelper";
 
 type SearchContextType = {
   query: any;
   doSearch: () => void;
+  updateFilters: ({ param, value }: { param: string; value: string }) => void;
   setFilters: React.Dispatch<SetStateAction<Filters>>;
   setSearchQuery: React.Dispatch<SetStateAction<string>>;
   filters: Filters;
@@ -43,19 +45,28 @@ export function SearchContextProvider({ children }: SearchContextProps) {
   const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
-    console.log(router.query);
-    if (!router.query) return;
-    if (typeof router.query.q === "string") {
-      setSearchQuery(router.query.q);
-    }
-    if (router.query.type && typeof router.query.type === "string") {
-      setFilters({ ...filters, type: router.query.type });
+    console.log(window.location.href);
+    if (!window.location) return;
+    const searchParam = URLHelper.getUrlQueryParameter({ name: "q" });
+    const typeParam = URLHelper.getUrlQueryParameter({ name: "type" });
+    // const yearParam = URLHelper.getUrlQueryParameter({ name: "year" });
+    console.log(searchParam, typeParam);
+    if (searchParam) {
+      setSearchQuery(searchParam);
     }
 
-    if (router.query.q && router.query.type) {
+    // const filters = { type: typeParam, year: yearParam };
+
+    // console.log(filters);
+
+    if (typeParam) {
+      setFilters({ ...filters, type: typeParam });
+    }
+
+    if (searchParam && typeParam) {
       search();
     }
-  }, [router.query]);
+  }, []);
 
   const handleUpdateQuery = async ({
     queryParameter,
@@ -94,35 +105,47 @@ export function SearchContextProvider({ children }: SearchContextProps) {
 
   const doSearch = async () => {
     if (!searchQuery) return;
-    console.log(searchQuery);
     await handleUpdateQuery({
       queryParameter: {
         q: searchQuery,
         ...filters,
       },
     });
+    search();
   };
 
   const search = async () => {
     try {
-      const queryStrigified = new URLSearchParams(router.query).toString();
-      console.log(queryStrigified);
+      const queryStrigified = new URLSearchParams(
+        window.location.search
+      ).toString();
+
       const { data } = await spotifyApi.get(`/search?${queryStrigified}`);
-
-      if (router.query.type === "artist") {
-        setItems(data.artists.items);
+      const typeParam = URLHelper.getUrlQueryParameter({ name: "type" });
+      if (typeParam) {
+        const pluralTypeParam = `${typeParam}s`;
+        console.log(data);
+        setItems(data[pluralTypeParam].items);
       }
-
-      if (router.query.type === "album") {
-        setItems(data.albums.items);
-      }
-      console.log(data.artists.items);
     } catch (e) {
       console.log(e);
     }
   };
 
-  console.log({ items });
+  const updateFilters = ({
+    param,
+    value,
+  }: {
+    param: string;
+    value: string;
+  }) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      [param]: value,
+    }));
+  };
+
+  // console.log({ items });
 
   return (
     <SearchContext.Provider
@@ -133,6 +156,7 @@ export function SearchContextProvider({ children }: SearchContextProps) {
         setFilters,
         filters,
         items,
+        updateFilters,
       }}
     >
       {children}

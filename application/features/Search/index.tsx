@@ -1,14 +1,33 @@
 import React, { useContext } from "react";
+import { UilMicrophone, UilBooks } from "@iconscout/react-unicons";
 import { SearchContext, SearchContextProvider } from "./SearchContext";
+import General from "../../../shared/components/General";
 
 function SearchPage() {
-  const { setSearchQuery, doSearch, query, setFilters, filters, items } =
+  const { setSearchQuery, doSearch, query, updateFilters, filters, items } =
     useContext(SearchContext);
+
+  console.log("->", filters);
 
   return (
     <>
       <div className="m-16 flex justify-center">
+        <General.SelectButton
+          selectedValue={filters.type}
+          title="Artista"
+          icon={<UilMicrophone />}
+          id="artist"
+          onClick={() => updateFilters({ value: "artist", param: "type" })}
+        />
+        <General.SelectButton
+          selectedValue={filters.type}
+          title="Albums"
+          icon={<UilBooks />}
+          id="album"
+          onClick={() => updateFilters({ value: "album", param: "type" })}
+        />
         <input
+          required
           placeholder="Busca..."
           defaultValue={query.q}
           className="border-2 focus:ring-2 focus:ring-blue-600 rounded-md py-2 px-2 mr-4"
@@ -16,50 +35,12 @@ function SearchPage() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button
+          type="submit"
           onClick={doSearch}
           className="bg-blue-600 active:bg-blue-700 hover:bg-blue-500 border-2 border-blue-600 text-blue-100  uppercase text-xs tracking-wider font-semibold py-2 px-2 rounded-md"
         >
           Buscar
         </button>
-      </div>
-      <div>
-        <p>Filtros:</p>
-        <div>
-          <input
-            onChange={(e) =>
-              setFilters((prevState) => ({
-                ...prevState,
-                type: e.target.value,
-              }))
-            }
-            defaultChecked={query.type === "album" || filters.type === "album"}
-            // checked={query.type === "album" || filters.type === "album"}
-            type="radio"
-            id="album"
-            name="type"
-            value="album"
-          />
-          <label htmlFor="album">Album</label>
-        </div>
-        <div>
-          <input
-            onChange={(e) =>
-              setFilters((prevState) => ({
-                ...prevState,
-                type: e.target.value,
-              }))
-            }
-            defaultChecked={
-              query.type === "artist" || filters.type === "artist"
-            }
-            // checked={query.type === "artist" || filters.type === "artist"}
-            type="radio"
-            id="artist"
-            name="type"
-            value="artist"
-          />
-          <label htmlFor="artist">Artista</label>
-        </div>
       </div>
 
       <div className="grid grid-cols-4 gap-8 p-8">
