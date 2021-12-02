@@ -4,10 +4,17 @@ import { SearchContext, SearchContextProvider } from "./SearchContext";
 import General from "../../../shared/components/General";
 
 function SearchPage() {
-  const { setSearchQuery, doSearch, query, updateFilters, filters, items } =
-    useContext(SearchContext);
+  const {
+    setSearchQuery,
+    doSearch,
+    searchQuery,
+    query,
+    updateFilters,
+    filters,
+    items,
+  } = useContext(SearchContext);
 
-  console.log("->", filters);
+  const isButtonDisabled: boolean = !filters.type || !searchQuery.length;
 
   return (
     <>
@@ -35,9 +42,11 @@ function SearchPage() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button
+          disabled={isButtonDisabled}
+          role="button"
           type="submit"
           onClick={doSearch}
-          className="bg-blue-600 active:bg-blue-700 hover:bg-blue-500 border-2 border-blue-600 text-blue-100  uppercase text-xs tracking-wider font-semibold py-2 px-2 rounded-md"
+          className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed border-2 px-8 border-blue-600 text-blue-100  uppercase text-xs tracking-wider font-semibold py-2 rounded-md"
         >
           Buscar
         </button>
@@ -48,7 +57,7 @@ function SearchPage() {
           ? items.map((artist) => (
               <div
                 key={artist.name}
-                className="bg-gray-100 flex flex-col items-center p-4 rounded-md"
+                className="bg-gray-50 flex flex-col items-center p-4 rounded-md"
               >
                 <img
                   className="mb-4"
@@ -60,7 +69,7 @@ function SearchPage() {
                   height={200}
                   alt={artist.name}
                 />
-                <h1 className="text-2xl text-center text-blue-800 max-w-full truncate overflow-ellipsis overflow-hidden">
+                <h1 className="text-lg font-semibold text-center text-blue-800 max-w-full truncate overflow-ellipsis overflow-hidden">
                   {artist.name}
                 </h1>
               </div>

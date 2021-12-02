@@ -13,10 +13,10 @@ type SearchContextType = {
   query: any;
   doSearch: () => void;
   updateFilters: ({ param, value }: { param: string; value: string }) => void;
-  setFilters: React.Dispatch<SetStateAction<Filters>>;
   setSearchQuery: React.Dispatch<SetStateAction<string>>;
   filters: Filters;
   items: Item[];
+  searchQuery: string;
 };
 
 export const SearchContext = createContext({} as SearchContextType);
@@ -49,15 +49,10 @@ export function SearchContextProvider({ children }: SearchContextProps) {
     if (!window.location) return;
     const searchParam = URLHelper.getUrlQueryParameter({ name: "q" });
     const typeParam = URLHelper.getUrlQueryParameter({ name: "type" });
-    // const yearParam = URLHelper.getUrlQueryParameter({ name: "year" });
     console.log(searchParam, typeParam);
     if (searchParam) {
       setSearchQuery(searchParam);
     }
-
-    // const filters = { type: typeParam, year: yearParam };
-
-    // console.log(filters);
 
     if (typeParam) {
       setFilters({ ...filters, type: typeParam });
@@ -114,8 +109,22 @@ export function SearchContextProvider({ children }: SearchContextProps) {
     search();
   };
 
+  const updateFilters = ({
+    param,
+    value,
+  }: {
+    param: string;
+    value: string;
+  }) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      [param]: value,
+    }));
+  };
+
   const search = async () => {
     try {
+      console.log("SEARCH");
       const queryStrigified = new URLSearchParams(
         window.location.search
       ).toString();
@@ -132,30 +141,15 @@ export function SearchContextProvider({ children }: SearchContextProps) {
     }
   };
 
-  const updateFilters = ({
-    param,
-    value,
-  }: {
-    param: string;
-    value: string;
-  }) => {
-    setFilters((prevState) => ({
-      ...prevState,
-      [param]: value,
-    }));
-  };
-
-  // console.log({ items });
-
   return (
     <SearchContext.Provider
       value={{
         setSearchQuery,
         doSearch,
         query: router.query,
-        setFilters,
         filters,
         items,
+        searchQuery,
         updateFilters,
       }}
     >

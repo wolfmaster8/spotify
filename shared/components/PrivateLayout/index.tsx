@@ -1,9 +1,7 @@
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { UilMusic } from "@iconscout/react-unicons";
 import { setRequestInterceptor } from "../../../application/services/axiosInstances/spotifyApi";
 import { useRouter } from "next/router";
-import Header from "../Header";
-import { ProfileContext } from "../../../application/contexts/ProfileContext";
-import AuthenticationService from "../../../application/services/AuthenticationService";
 
 type PrivateLayoutProps = {
   children: ReactNode;
@@ -15,7 +13,6 @@ export default function PrivateLayout({
   const [isLoading, setIsLoading] = useState(true);
 
   const { push } = useRouter();
-  const { profile } = useContext(ProfileContext);
 
   useEffect(() => {
     handleAuthentication();
@@ -33,7 +30,13 @@ export default function PrivateLayout({
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className=" flex flex-col items-center justify-center min-h-screen w-full">
+        <UilMusic className="text-blue-600 mr-2 animate-pulse w-8 h-8" />
+        <p className="text-lg text-blue-700 font-semibold">Loading...</p>
+      </div>
+    );
 
   return <main>{children}</main>;
 }
