@@ -1,29 +1,37 @@
-import {ReactNode, useContext} from "react";
-import {setRequestInterceptor} from "../../../application/services/axiosInstances/spotifyApi";
-import {useRouter} from "next/router";
-import Header from "../Header";
-import {ProfileContext} from "../../../application/contexts/ProfileContext";
+import { ReactNode, useEffect, useState } from "react";
+import { UilMusic } from "@iconscout/react-unicons";
+import { setRequestInterceptor } from "../../../application/services/axiosInstances/spotifyApi";
+import { useRouter } from "next/router";
+import LoadingContainer from "../LoadingContainer";
 
 type PrivateLayoutProps = {
-    children: ReactNode
-}
+  children: ReactNode;
+};
 
-export default function PrivateLayout({ children}: PrivateLayoutProps): JSX.Element{
-    const {push} = useRouter()
-    const {profile} = useContext(ProfileContext)
-    const isLoggedIn = () => {
-        /* Fazer lógica para falar se o usuário está ou não autenticado */
-        setRequestInterceptor()
-        return true;
+export default function PrivateLayout({
+  children,
+}: PrivateLayoutProps): JSX.Element {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { push } = useRouter();
+
+  useEffect(() => {
+    handleAuthentication();
+  }, []);
+
+  const handleAuthentication = () => {
+    try {
+      if (!sessionStorage.getItem("accessToken")) {
+        throw new Error("error");
+      }
+      setIsLoading(false);
+      setRequestInterceptor();
+    } catch (e) {
+      push("/");
     }
-    if(!isLoggedIn()) push('/login')
-    return (
-        <main style={{background: '#ccc'}}>
-            <Header />
-            {children}
-            <footer>
-               <b> Followers: {profile?.followers?.total}</b>
-            </footer>
-        </main>
-    )
+  };
+
+  if (isLoading) return <LoadingContainer />;
+
+  return <main>{children}</main>;
 }
