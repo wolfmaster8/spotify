@@ -1,0 +1,19 @@
+{
+  "display_name" : "Felipe",
+  "external_urls" : {
+    "spotify" : "https://open.spotify.com/user/123"
+  },
+  "followers" : {
+    "href" : null,
+    "total" : 60000
+  },
+  "href" : "https://api.spotify.com/v1/users/123",
+  "id" : "123",
+  "images" : [ {
+    "height" : null,
+    "url" : "https://placeholder.it/200",
+    "width" : null
+  } ],
+  "type" : "user",
+  "uri" : "spotify:user:123"
+}
